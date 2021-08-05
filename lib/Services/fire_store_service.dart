@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:js_util';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codepandas/Classes/items.dart';
@@ -8,6 +9,11 @@ class DatabaseService {
   //Collection reference
   final CollectionReference itemCollection =
       FirebaseFirestore.instance.collection('items');
+
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+
+  // FILES
 
   Future setFileReference(String? downloadURL, String? fileName,
       String? displayName, String? authorId, bool visible) async {
@@ -49,5 +55,24 @@ class DatabaseService {
         .delete()
         .then((value) => print('Item Deleted!'))
         .catchError((error) => print('Error: $error'));
+  }
+
+  //  USERS
+
+  Future setUserData(
+      String? uid, String? name, String? email, String? image) async {
+    if (uid != null) {
+      var alreadyKnown =
+          await userCollection.where("uid", isEqualTo: uid).get();
+
+      if (alreadyKnown.docs.isEmpty) {
+        return await userCollection.doc().set(
+            {'uid': uid, 'name': name, 'email': email, 'profilePhoto': image});
+      } else {
+        print("Already Known User");
+      }
+    } else {
+      print("Empty user?");
+    }
   }
 }
