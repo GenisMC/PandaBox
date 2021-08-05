@@ -180,7 +180,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                     color: Colors.white,
                                   )
                                 : const Text(
-                                    "Private?",
+                                    "Public?",
                                     style: TextStyle(color: Colors.white),
                                   ),
                             value: visible,

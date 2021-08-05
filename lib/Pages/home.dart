@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     void deleteItem(String docId, String fileName) {
       provider.db.deleteItem(docId);
       provider.storage.deleteFile(fileName);
-      provider.db.getItems();
+      provider.db.getItems(provider.authService.auth.currentUser?.uid);
       setState(() {});
     }
 
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
         appBar: const CustomAppBar(),
         drawer: DrawerMain(),
         body: FutureBuilder<List<Item>>(
-          future: provider.db.getItems(),
+          future: provider.db.getItems(provider.authService.auth.currentUser?.uid),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {

@@ -43,7 +43,8 @@ class NotAuthorizedPage extends StatelessWidget {
         backgroundColor: const Color(0xff434343),
         appBar: const CustomAppBar(),
         body: FutureBuilder<List<Item>>(
-          future: provider.db.getItems(),
+          future:
+              provider.db.getItems(provider.authService.auth.currentUser?.uid),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {

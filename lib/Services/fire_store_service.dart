@@ -20,21 +20,23 @@ class DatabaseService {
     });
   }
 
-  Future<List<Item>> getItems() async {
+  Future<List<Item>> getItems(String? userId) async {
     List<Item> items = [];
 
     await itemCollection
-        .where("visible", isEqualTo: false)
+        .where("visible", isEqualTo: true)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        items.add(Item(
-            docId: doc.id,
-            downloadURL: doc["URL"],
-            fileName: doc["FileName"],
-            displayName: doc["DisplayName"],
-            authId: doc["author"],
-            visible: doc["visible"]));
+        if (doc["author"] == userId) {
+          items.add(Item(
+              docId: doc.id,
+              downloadURL: doc["URL"],
+              fileName: doc["FileName"],
+              displayName: doc["DisplayName"],
+              authId: doc["author"],
+              visible: doc["visible"]));
+        }
       });
     });
 
