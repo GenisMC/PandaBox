@@ -2,6 +2,7 @@ import 'dart:html';
 import 'dart:js_util';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:codepandas/Classes/app_user.dart';
 import 'package:codepandas/Classes/items.dart';
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
@@ -74,5 +75,21 @@ class DatabaseService {
     } else {
       print("Empty user?");
     }
+  }
+
+  Future<List<AppUser>> getUsers() async {
+    List<AppUser> users = [];
+
+    await userCollection.get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        users.add(AppUser(
+            uid: doc["uid"],
+            name: doc["name"],
+            email: doc["email"],
+            profilePhoto: doc["profilePhoto"]));
+      });
+    });
+
+    return users;
   }
 }
