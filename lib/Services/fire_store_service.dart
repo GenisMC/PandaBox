@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codepandas/Classes/app_user.dart';
 import 'package:codepandas/Classes/items.dart';
+import 'package:codepandas/Classes/user_group.dart';
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
 class DatabaseService {
@@ -80,15 +81,46 @@ class DatabaseService {
     List<AppUser> users = [];
 
     await userCollection.get().then((QuerySnapshot querySnapshot) {
+      List<UserGroup> groups = [];
+
       for (var doc in querySnapshot.docs) {
+        for (var groupMapElements in doc["groups"]) {
+          groups.add(UserGroup(
+              name: groupMapElements["name"],
+              users: groupMapElements["users"],
+              files: groupMapElements["files"]));
+        }
+
         users.add(AppUser(
             uid: doc["uid"],
             name: doc["name"],
             email: doc["email"],
-            profilePhoto: doc["profilePhoto"]));
+            profilePhoto: doc["profilePhoto"],
+            groups: groups));
       }
     });
 
     return users;
+  }
+
+  //  GROUPS
+
+  //var messageRef = db.collection('rooms').doc('roomA').collection('messages').doc('message1');
+
+  Future<List<UserGroup>> getGroups(String uid) async {
+    List<UserGroup> groups = [];
+
+    var groupsMap;
+
+    await userCollection
+        .where("uid", isEqualTo: uid)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        groupsMap = querySnapshot.docs.first[""];
+      }
+    });
+
+    return groups;
   }
 }
