@@ -91,6 +91,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     child: const Text("Log Out"))
       ],
       leading: provider.userIn == false ? Container() : null,
+      backgroundColor: const Color(0xffF64747),
     );
   }
 }

@@ -66,7 +66,7 @@ class DatabaseService {
           await userCollection.where("uid", isEqualTo: uid).get();
 
       if (alreadyKnown.docs.isEmpty) {
-        return await userCollection.doc().set(
+        return await userCollection.doc(uid).set(
             {'uid': uid, 'name': name, 'email': email, 'profilePhoto': image});
       } else {
         print("Already Known User");
