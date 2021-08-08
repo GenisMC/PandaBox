@@ -82,7 +82,7 @@ class _UploadScreenState extends State<UploadScreen> {
     return Scaffold(
       backgroundColor: const Color(0xff3b3b3b),
       appBar: const CustomAppBar(),
-      drawer: DrawerMain(),
+      drawer: const DrawerMain(),
       body: Center(
         child: Card(
           color: const Color(0xff171717),

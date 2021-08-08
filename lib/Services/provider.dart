@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:codepandas/Services/fire_auth_service.dart';
 import 'package:codepandas/Services/fire_filestore_service.dart';
 import 'package:codepandas/Services/fire_store_service.dart';

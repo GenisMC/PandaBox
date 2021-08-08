@@ -46,7 +46,7 @@ class AuthService {
           auth.currentUser!.email, auth.currentUser!.photoURL);
     } on FirebaseAuthException catch (e) {
       print(e.message);
-      throw e;
+      rethrow;
     }
   }
 

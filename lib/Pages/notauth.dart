@@ -1,11 +1,9 @@
 import 'package:codepandas/Classes/items.dart';
-import 'package:codepandas/Drawer/drawer.dart';
 import 'package:codepandas/Services/provider.dart';
 import 'package:codepandas/device_check.dart';
 import 'package:codepandas/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:html' as html;
 
 import 'package:provider/provider.dart';
 
@@ -14,8 +12,6 @@ class NotAuthorizedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderService>(context);
-
-    MediaQueryData query = MediaQuery.of(context);
 
     int crossAxisCount = 2;
     double fontSize = 12;

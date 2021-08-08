@@ -1,5 +1,4 @@
-import 'dart:html';
-import 'dart:js_util';
+// ignore_for_file: avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codepandas/Classes/app_user.dart';
@@ -34,7 +33,7 @@ class DatabaseService {
         .where("visible", isEqualTo: true)
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         if (doc["author"] == userId) {
           items.add(Item(
               docId: doc.id,
@@ -44,7 +43,7 @@ class DatabaseService {
               authId: doc["author"],
               visible: doc["visible"]));
         }
-      });
+      }
     });
 
     return items;
@@ -81,13 +80,13 @@ class DatabaseService {
     List<AppUser> users = [];
 
     await userCollection.get().then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         users.add(AppUser(
             uid: doc["uid"],
             name: doc["name"],
             email: doc["email"],
             profilePhoto: doc["profilePhoto"]));
-      });
+      }
     });
 
     return users;

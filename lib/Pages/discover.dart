@@ -7,10 +7,10 @@ class Discover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: const CustomAppBar(),
+    return const Scaffold(
+        appBar: CustomAppBar(),
         drawer: DrawerMain(),
-        body: const Center(
+        body: Center(
           child: Text(
             "WORK IN PROGRESS",
             style: TextStyle(fontSize: 50),

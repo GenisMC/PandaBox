@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'dart:html' as html;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,8 +19,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderService>(context);
-
-    MediaQueryData query = MediaQuery.of(context);
 
     void deleteItem(String docId, String fileName) {
       provider.db.deleteItem(docId);
@@ -55,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         backgroundColor: const Color(0xff434343),
         appBar: const CustomAppBar(),
-        drawer: DrawerMain(),
+        drawer: const DrawerMain(),
         body: FutureBuilder<List<Item>>(
           future: provider.db.getItems(provider.authService.auth.currentUser?.uid),
           builder: (context, snapshot) {

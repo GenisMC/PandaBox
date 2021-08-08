@@ -1,6 +1,6 @@
-import 'package:codepandas/Classes/items.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 // ignore_for_file: import_of_legacy_library_into_null_safe
 

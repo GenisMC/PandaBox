@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DrawerMain extends StatelessWidget {
-  DrawerMain({Key? key}) : super(key: key);
+  const DrawerMain({Key? key}) : super(key: key);
 
-  double labelSize = 20;
+  final double labelSize = 20;
 
   @override
   Widget build(BuildContext context) {

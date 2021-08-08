@@ -2,7 +2,6 @@
 // ignore_for_file: avoid_print
 import 'package:codepandas/Pages/home.dart';
 import 'package:codepandas/Pages/notauth.dart';
-import 'package:codepandas/Services/fire_auth_service.dart';
 import 'package:codepandas/Services/provider.dart';
 import 'package:codepandas/loading.dart';
 import 'package:codepandas/something_went_wrong.dart';
