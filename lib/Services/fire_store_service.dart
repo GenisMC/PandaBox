@@ -103,24 +103,34 @@ class DatabaseService {
     return users;
   }
 
-  //  GROUPS
-
-  //var messageRef = db.collection('rooms').doc('roomA').collection('messages').doc('message1');
-
-  Future<List<UserGroup>> getGroups(String uid) async {
-    List<UserGroup> groups = [];
-
-    var groupsMap;
+  Future<AppUser> getCurrentUser(String uid) async {
+    List<UserGroup> group = [];
+    AppUser user =
+        AppUser(uid: uid, name: "", email: "", profilePhoto: "", groups: group);
 
     await userCollection
         .where("uid", isEqualTo: uid)
         .get()
         .then((QuerySnapshot querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        groupsMap = querySnapshot.docs.first[""];
-      }
-    });
+      List<UserGroup> groups = [];
 
-    return groups;
+      var userDoc = querySnapshot.docs.first;
+
+      for (var groupMapElements in userDoc["groups"]) {
+        groups.add(UserGroup(
+            name: groupMapElements["name"],
+            users: groupMapElements["users"],
+            files: groupMapElements["files"]));
+      }
+
+      user = AppUser(
+          uid: userDoc["uid"],
+          name: userDoc["name"],
+          email: userDoc["email"],
+          profilePhoto: userDoc["profilePhoto"],
+          groups: groups);
+      return user;
+    }).catchError((e) => print(e));
+    return user;
   }
 }

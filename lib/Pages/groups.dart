@@ -1,9 +1,12 @@
 import 'package:codepandas/Classes/app_user.dart';
+import 'package:codepandas/Classes/user_group.dart';
 import 'package:codepandas/Drawer/drawer.dart';
 import 'package:codepandas/Services/provider.dart';
 import 'package:codepandas/device_check.dart';
 import 'package:codepandas/widgets/appbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class Groups extends StatelessWidget {
@@ -28,25 +31,19 @@ class Groups extends StatelessWidget {
     return Scaffold(
         appBar: const CustomAppBar(),
         drawer: const DrawerMain(),
-        body: FutureBuilder<List<AppUser>>(
-          future: provider.db.getUsers(),
+        body: FutureBuilder<AppUser>(
+          future: provider.db
+              .getCurrentUser(provider.authService.auth.currentUser!.uid),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
-                List<AppUser> users = snapshot.data!;
+                var groups = snapshot.data!.groups;
                 return Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                    ),
-                    itemCount: users.length,
+                  child: ListView.builder(
+                    itemCount: groups.length,
                     itemBuilder: (BuildContext context, int i) {
-                      return Card(
-                        child: Center(
-                          child: Text(users[i].name),
-                        ),
-                      );
+                      return CardWidget(group: groups[i]);
                     },
                   ),
                 );
@@ -57,5 +54,106 @@ class Groups extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           },
         ));
+  }
+}
+
+class CardWidget extends StatefulWidget {
+  const CardWidget({Key? key, required this.group}) : super(key: key);
+
+  final UserGroup group;
+
+  @override
+  State<CardWidget> createState() => _CardWidgetState();
+}
+
+class _CardWidgetState extends State<CardWidget> {
+  bool showData = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GestureDetector(
+          child: Container(
+              color: Colors.grey[400],
+              width: MediaQuery.of(context).size.width,
+              height: 40,
+              child: Center(
+                  child: Text(
+                widget.group.name.toUpperCase(),
+                style: GoogleFonts.lato(fontSize: 20),
+              ))),
+          onTap: () {
+            setState(() {
+              showData = !showData;
+            });
+          },
+        ),
+        showData
+            ? Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Users",
+                            style: GoogleFonts.saira(fontSize: 20),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                              ),
+                              itemCount: widget.group.users.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Card(
+                                  child: Text(widget.group.users[index]),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Files",
+                            style: GoogleFonts.saira(fontSize: 20),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                              ),
+                              itemCount: widget.group.files.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Card(
+                                  child: Text(widget.group.files[index]),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              )
+            : const SizedBox()
+      ],
+    );
   }
 }
