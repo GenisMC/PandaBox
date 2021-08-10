@@ -16,19 +16,8 @@ class Groups extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderService>(context);
 
-    int crossAxisCount = 2;
-
-    if (context.isPhone) {
-      crossAxisCount = 2;
-    } else if (context.isTablet) {
-      crossAxisCount = 3;
-    } else if (context.isDesktop) {
-      crossAxisCount = 4;
-    } else if (context.isHiRes) {
-      crossAxisCount = 5;
-    }
-
     return Scaffold(
+        backgroundColor: const Color(0xff434343),
         appBar: const CustomAppBar(),
         drawer: const DrawerMain(),
         body: FutureBuilder<AppUser>(
@@ -75,14 +64,31 @@ class _CardWidgetState extends State<CardWidget> {
       children: [
         GestureDetector(
           child: Container(
-              color: Colors.grey[400],
+              color: const Color(0xff6D6D6D),
               width: MediaQuery.of(context).size.width,
               height: 40,
-              child: Center(
-                  child: Text(
-                widget.group.name.toUpperCase(),
-                style: GoogleFonts.lato(fontSize: 20),
-              ))),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                      child: Text(
+                        widget.group.name.toUpperCase(),
+                        style: GoogleFonts.lato(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                  const Positioned(
+                    child: Icon(
+                      Icons.arrow_drop_down,
+                      color: Color(0xffE2E2E2),
+                      size: 55,
+                    ),
+                    right: 10,
+                  )
+                ],
+              )),
           onTap: () {
             setState(() {
               showData = !showData;
@@ -91,69 +97,97 @@ class _CardWidgetState extends State<CardWidget> {
         ),
         showData
             ? Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            "Users",
-                            style: GoogleFonts.saira(fontSize: 20),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: GridView.builder(
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                              ),
-                              itemCount: widget.group.users.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Card(
-                                  child: Text(widget.group.users[index]),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            "Files",
-                            style: GoogleFonts.saira(fontSize: 20),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: GridView.builder(
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                              ),
-                              itemCount: widget.group.files.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Card(
-                                  child: Text(widget.group.files[index]),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
+                  groupSection("Users", widget.group.users, 3),
+                  groupSection("Files", widget.group.files, 5)
                 ],
               )
             : const SizedBox()
       ],
+    );
+  }
+
+  Widget groupSection(String title, List<dynamic> objects, int flex) {
+    bool isSmall = false;
+    double fontSize = 20;
+
+    if (context.isPhone) {
+      isSmall = true;
+      fontSize = 15;
+    } else if (context.isTablet) {
+      isSmall = true;
+      fontSize = 18;
+    } else if (context.isDesktop) {
+      isSmall = false;
+      fontSize = 20;
+    } else if (context.isHiRes) {
+      isSmall = false;
+      fontSize = 22;
+    }
+
+    return Expanded(
+      flex: flex,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.saira(
+                          fontSize: fontSize, color: Colors.white),
+                    ),
+                    isSmall
+                        ? const Icon(Icons.add, color: Colors.white)
+                        : ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                                primary: const Color(0xffE2E2E2)),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.add, color: Colors.black),
+                                Text(
+                                  "Add",
+                                  style: GoogleFonts.saira(color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                ),
+                itemCount: objects.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Card(
+                      child: Text(
+                        objects[index],
+                        style: GoogleFonts.lato(fontSize: fontSize / 1.2),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -44,6 +44,7 @@ dependencies:
   loading_indicator: ^2.1.1
   google_fonts: ^2.1.0
   google_sign_in: ^5.0.5
+  animations: ^2.0.1
 
 dev_dependencies:
   flutter_test:
