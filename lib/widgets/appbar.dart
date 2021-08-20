@@ -1,6 +1,6 @@
 import 'package:codepandas/Services/provider.dart';
-import 'package:codepandas/device_check.dart';
-import 'package:codepandas/panda_icon_icons.dart';
+import 'package:codepandas/Extensions/device_check.dart';
+import 'package:codepandas/Components/Icons/panda_icon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

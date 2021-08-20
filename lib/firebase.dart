@@ -1,10 +1,10 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 // ignore_for_file: avoid_print
-import 'package:codepandas/Pages/home.dart';
-import 'package:codepandas/Pages/notauth.dart';
+import 'package:codepandas/Pages/Home/home.dart';
+import 'package:codepandas/Pages/NotAuth/notauth.dart';
 import 'package:codepandas/Services/provider.dart';
-import 'package:codepandas/loading.dart';
-import 'package:codepandas/something_went_wrong.dart';
+import 'package:codepandas/Pages/Loading/loading.dart';
+import 'package:codepandas/Pages/Error/something_went_wrong.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';

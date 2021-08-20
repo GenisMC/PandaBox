@@ -1,12 +1,12 @@
-import 'package:codepandas/Pages/discover.dart';
-import 'package:codepandas/Pages/groups.dart';
-import 'package:codepandas/Pages/settings.dart';
-import 'package:codepandas/Pages/upload.dart';
+import 'package:codepandas/Pages/Discover/discover.dart';
+import 'package:codepandas/Pages/Groups/groups.dart';
+import 'package:codepandas/Pages/Settings/settings.dart';
+import 'package:codepandas/Pages/Upload/upload.dart';
 import 'package:codepandas/Services/provider.dart';
 import 'package:codepandas/firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'Pages/home.dart';
+import 'Pages/Home/home.dart';
 
 void main() {
   runApp(const MyApp());

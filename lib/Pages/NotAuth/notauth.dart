@@ -1,31 +1,17 @@
 import 'package:codepandas/Classes/items.dart';
-import 'package:codepandas/Drawer/drawer.dart';
 import 'package:codepandas/Services/provider.dart';
-import 'package:codepandas/device_check.dart';
+import 'package:codepandas/Extensions/device_check.dart';
 import 'package:codepandas/widgets/appbar.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class NotAuthorizedPage extends StatelessWidget {
+  const NotAuthorizedPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderService>(context);
-
-    void deleteItem(String docId, String fileName) {
-      provider.db.deleteItem(docId);
-      provider.storage.deleteFile(fileName);
-      provider.db.getItems(provider.authService.auth.currentUser?.uid);
-      setState(() {});
-    }
 
     int crossAxisCount = 2;
     double fontSize = 12;
@@ -52,9 +38,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         backgroundColor: const Color(0xff434343),
         appBar: const CustomAppBar(),
-        drawer: const DrawerMain(),
         body: FutureBuilder<List<Item>>(
-          future: provider.db.getItems(provider.authService.auth.currentUser?.uid),
+          future:
+              provider.db.getItems(provider.authService.auth.currentUser?.uid),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
@@ -78,7 +64,7 @@ class _HomePageState extends State<HomePage> {
                               Expanded(
                                 flex: 1,
                                 child: Text(
-                                  items[index].displayName,
+                                  items[index].fileName,
                                   style: TextStyle(fontSize: fontSize),
                                   textAlign: TextAlign.center,
                                 ),
@@ -108,20 +94,6 @@ class _HomePageState extends State<HomePage> {
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                       )),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: GestureDetector(
-                                      child: const Icon(
-                                        Icons.close_rounded,
-                                        color: Color(0xffF32424),
-                                        size: 25,
-                                      ),
-                                      onTap: () {
-                                        deleteItem(items[index].docId,
-                                            items[index].fileName);
-                                      },
-                                    ),
-                                  )
                                 ],
                               ),
                             ],

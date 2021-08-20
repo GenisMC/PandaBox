@@ -1,10 +1,9 @@
 import 'package:codepandas/Classes/app_user.dart';
 import 'package:codepandas/Classes/user_group.dart';
-import 'package:codepandas/Drawer/drawer.dart';
+import 'package:codepandas/components/Drawer/drawer.dart';
 import 'package:codepandas/Services/provider.dart';
-import 'package:codepandas/device_check.dart';
+import 'package:codepandas/Extensions/device_check.dart';
 import 'package:codepandas/widgets/appbar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
