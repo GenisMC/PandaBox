@@ -99,8 +99,8 @@ class _CardWidgetState extends State<CardWidget> {
             ? Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  groupSection("Users", widget.group.users, 3),
-                  groupSection("Files", widget.group.files, 5)
+                  groupSection("Users", widget.group.users, true),
+                  groupSection("Files", widget.group.files, false)
                 ],
               )
             : const SizedBox()
@@ -108,7 +108,7 @@ class _CardWidgetState extends State<CardWidget> {
     );
   }
 
-  Widget groupSection(String title, List<dynamic> objects, int flex) {
+  Widget groupSection(String title, List<dynamic> objects, bool users) {
     bool isSmall = false;
     double fontSize = 20;
 
@@ -127,7 +127,7 @@ class _CardWidgetState extends State<CardWidget> {
     }
 
     return Expanded(
-      flex: flex,
+      flex: users ? 3 : 5,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -147,7 +147,9 @@ class _CardWidgetState extends State<CardWidget> {
                     isSmall
                         ? const Icon(Icons.add, color: Colors.white)
                         : ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showAddDialog(context);
+                            },
                             style: ElevatedButton.styleFrom(
                                 primary: const Color(0xffE2E2E2)),
                             child: Row(
@@ -189,5 +191,17 @@ class _CardWidgetState extends State<CardWidget> {
         ),
       ),
     );
+  }
+
+  Future showAddDialog(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            content: Card(
+              child: Text("Beans"),
+            ),
+          );
+        });
   }
 }

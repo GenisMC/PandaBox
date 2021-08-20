@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           cardColor: const Color(0xffE2E2E2),
           canvasColor: const Color(0xffF64747),
         ),
-        initialRoute: '/groups',
+        initialRoute: '/',
         debugShowCheckedModeBanner: false,
         routes: {
           '/': (context) => const App(),
